@@ -11,28 +11,24 @@
  * @author jamesjones
  */
 
-include_once 'Layout.php';
 include_once 'Connection.php';
 
 class Parser extends Connection {
-    //put your code here
     private $sth;
     public function __construct() {
-        global $importSQL;
         parent::__construct();
-        $this->sth = $this->getDbh()->prepare($importSQL);        
+        $this->sth = $this->dbh->prepare($this->settings['import']['importSQL']);   
     }
     public function parse($line) {
-        global $layout;
         $prepareValues = array();
-        foreach ($layout as $key => $value) {
+        foreach ($this->settings['parser'] as $key => $value) {
             $prepareValues = array_merge($prepareValues,array(
-                ":".$key => substr($line,$value['start'],$value['length'])
+                ":".$key => substr($line,$value[0],$value[1])
             ));
         }
-        $this->getDbh()->beginTransaction();        
+        $this->dbh->beginTransaction();        
         $this->sth->execute($prepareValues);
-        $this->getDbh()->commit();
+        $this->dbh->commit();
     }
 }
 

@@ -13,14 +13,14 @@
 include_once 'Parser.php';
 
 class Import {
-    //put your code here
+    private $settings;
     public function __construct() {
-        
+        $this->settings = parse_ini_file("settings.ini", true);
     }
     
-    public function extractVoters($filename) {
+    public function extractVoters() {
         $parser = new Parser();
-        $handle = @fopen($filename, "r");
+        $handle = @fopen($this->settings['import']['importFile'], "r");
         if ($handle) {
             while (($buffer = fgets($handle, 4096)) !== false) {
                 $parser->parse($buffer);
