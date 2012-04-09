@@ -24,7 +24,7 @@ class Parser extends Connection {
         foreach ($this->settings[$this->settings['import']['importTemplate']] as $key => $value) {
             switch ($this->settings['import']['importType']) {
                 case "DELIMITER": case "delimiter":
-                    $arr = explode($value[0], $line);
+                    $arr = array_map('trim',explode($value[0], $line));
                     $prepareValues = array_merge($prepareValues,array(
                         ":".$key => $arr[$value[1]]
                     ));
