@@ -10,21 +10,29 @@
  *
  * @author james
  */
+include_once 'Import.php';
+
 class Services {
-    private $request;
+    private $import;
     function __construct() {
-        
+        $this->import = new Import();
     }
-    
     public function invokeService($params) {
-        if (isset($params['method'])) {
-            if (isset($params['request'])) {
-                $this->request = json_decode($params['request']);
-            }
+        if (isset($params['method'])) {            
+            $uuid = new uuid();
+            $response = array(
+                "id" => (isset($params['id']))?$params['id']:$uuid->v4(),
+                "jsonrpc" => (isset($params['jsonrpc']))?$params['jsonrpc']:"2.0"
+            );
+            $request=(isset($params['params']))?json_decode($params['params']):array();
             header('Content-type: application/json');
             switch ($this->params['service']) {
-                case "ws_adLookup": 
-                    echo json_encode((object) array('status' => $this->ws_adLookup()));
+                case "extractVoters": 
+                    $import = new Import();
+                    (isset($request[0]['importFile']))?$import->extractVoters($request[0]['importFile']):$import->extractVoters();
+                    echo json_encode((object) array_merge($response,array(
+                        "result" => "queued"
+                    )));
                     break;
                 case "GetAuthStatus":
                     echo json_encode((object) array('casauthenticated' => $this->GetAuthStatus()));
