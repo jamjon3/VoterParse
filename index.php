@@ -1,3 +1,11 @@
+<?php
+    include_once 'Import.php';
+    include_once 'Services.php';
+    $service = new Services();
+    // Merge the POST and GET vars and run the services
+    $service->invokeService(array_merge($_GET, $_POST));
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,11 +36,6 @@
         <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
         <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>        
         <?php
-            include_once 'Import.php';
-            include_once 'Services.php';
-            $service = new Services();
-            // Merge the POST and GET vars and run the services
-            $service->invokeService(array_merge($_GET, $_POST));
             
             $import = new Import();
             $import->extractVoters();
