@@ -17,7 +17,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
  *
- * For details please refer to: http://www.usf.edu
+ * For details please refer to: http://www.stpetgreens.org
  */
 (function ($, window, document) {
     $.widget("ui.VoterParse", {
