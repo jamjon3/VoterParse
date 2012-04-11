@@ -2,6 +2,8 @@ This is a bit of code to handle importing the raw voter base file into
 a database so extracts and further breakdowns can be processed from the 
 database.
 
-Currently, running this command-line is the mechanism for running this.
-Configuration options are setup in the setup.ini file. I'm stubbing
-the code for a formal web interface but that will come later.
+Currently, this functions only by running this via command-line.
+I'm stubbing out an interface and the ajax callback to drive it
+so this will, ultimately, have an interface.
+
+Configuration options and defaults in the setup.ini file. 
