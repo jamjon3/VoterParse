@@ -35,6 +35,7 @@
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>   
         <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
         <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>        
+        <script src="jquery.ui.VoterParse.js"></script>        
         <?php
             
             $import = new Import();
