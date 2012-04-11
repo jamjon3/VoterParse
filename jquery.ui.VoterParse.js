@@ -2,7 +2,7 @@
  * File:        jquery.ui.VoterParse.js
  * Version:     0.1
  * Description: Provide for the client side for the VoterParse interface
- * Author:      James Jones (www.usf.edu)
+ * Author:      James Jones (www.stpetegreens.org)
  * Created:     04/11/2012
  * Language:    Javascript
  * License:     GPL v2
