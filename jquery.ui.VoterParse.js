@@ -28,8 +28,23 @@
             var self = this,
                 o = self.options,
                 el = self.element.addClass('ui-widget-content ui-corner-all'),
-                uiVoterParse = $(self.uiVoterParse = $('<div />')).appendTo(el);
+                uiVoterParse = $(self.uiVoterParse = $('<div />')).appendTo(el),
+                baseVoterImportButton = $(self.baseVoterImportButton = $('<button />',{
+                    'id': 'baseVoterImportButton'
+                }));
             // Do creation stuff here
+            
+            window.AppView = Backbone.View.extend({
+                el: $("body"),
+                events: {
+                    "click #baseVoterImportButton":  "showPrompt"
+                },
+                showPrompt: function () {
+                    var confirm = prompt("Are you sure?");
+                    // var friend_name = prompt("Who is your friend?");
+                }
+            });
+            self.appView = new AppView;            
             self._trigger("initialize", null, uiVoterParse);
 
         },
