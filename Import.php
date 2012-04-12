@@ -30,11 +30,12 @@ class Import extends Connection {
     public function extractVoters() {
         $pid = pcntl_fork();            
         if (!$pid) {
-            foreach($this->settings['import']['importFiles'] as $key => $value) {
+            foreach($this->settings['import']['importFiles'] as $value) {
                 //$handle = @fopen(($importFile != null)?$importFile:$this->settings['import']['importFile'], "r");
                 $handle = @fopen($value, "r");
                 if ($handle) {
-                    $parser = new Parser(key(explode(".", $value)));
+                    $barenames = explode(".", $value);
+                    $parser = new Parser($barenames[0]);
                     while (($buffer = fgets($handle, 4096)) !== false) {
                         $parser->parse($buffer);
                     }
