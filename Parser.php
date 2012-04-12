@@ -15,18 +15,26 @@ include_once 'Connection.php';
 
 class Parser extends Connection {
     private $sth;
-    public function __construct() {
+    public function __construct($filename) {
         parent::__construct();
-        $this->sth = $this->dbh->prepare($this->settings['import']['importSQL']);   
+        // "VoterExtract/";
+        
+        $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename), $this->settings['import']['importCreateSQL']));
+        $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename),"TRUNCATE TABLE `{tablename}`"));
+        $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename)."_greens", $this->settings['import']['importCreateSQL']));
+        $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename)."_greens","TRUNCATE TABLE `{tablename}`"));
+        $this->sth = $this->dbh->prepare(str_replace("{tablename}", str_replace("VoterExtract/","",$filename), $this->settings['import']['importSQL']));
+//        $this->sth = $this->dbh->prepare($this->settings['import']['importSQL']);   
+        // $this->sth = $this->dbh->prepare($importSQL);   
     }
     public function parse($line) {
         $prepareValues = array();        
         foreach ($this->settings[$this->settings['import']['importTemplate']] as $key => $value) {
             switch ($this->settings['import']['importType']) {
                 case "DELIMITER": case "delimiter":
-                    $arr = array_map('trim',explode($value[0], $line));
+                    $arr = array_map('trim',explode("\t", $line));
                     $prepareValues = array_merge($prepareValues,array(
-                        ":".$key => $arr[$value[1]]
+                        ":".$key => $arr[$value]
                     ));
                     break;
                 case "FIXED": case "fixed": default:
