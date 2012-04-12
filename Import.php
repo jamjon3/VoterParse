@@ -28,8 +28,8 @@ class Import extends Connection {
     }
      
     public function extractVoters() {
-        $pid = pcntl_fork();            
-        if (!$pid) {
+        // $pid = pcntl_fork();            
+        // if (!$pid) {
             foreach($this->settings['import']['importFiles'] as $value) {
                 //$handle = @fopen(($importFile != null)?$importFile:$this->settings['import']['importFile'], "r");
                 $handle = @fopen($value, "r");
@@ -43,12 +43,12 @@ class Import extends Connection {
                         echo "Error: unexpected fgets() fail\n";
                     }
                     fclose($handle);
-                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename), $this->settings['import']['createCountyGreens']));
-                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$filename), $this->settings['import']['createStateGreens']));
+                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$barenames[0]), $this->settings['import']['createCountyGreens']));
+                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$barenames[0]), $this->settings['import']['createStateGreens']));
                 }                      
             }
-            exit();
-        }
+            // exit();
+        // }
     }
 }
                 
