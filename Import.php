@@ -35,7 +35,7 @@ class Import extends Connection {
                 $handle = @fopen($value, "r");
                 if ($handle) {
                     $barenames = explode(".", $value);
-                    $parser = new Parser($barenames[0]);
+                    $parser = new Parser(str_replace("VoterExtract/","",$barenames[0]));
                     while (($buffer = fgets($handle, 4096)) !== false) {
                         $parser->parse($buffer);
                     }
@@ -43,8 +43,7 @@ class Import extends Connection {
                         echo "Error: unexpected fgets() fail\n";
                     }
                     fclose($handle);
-                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$barenames[0]), $this->settings['import']['createCountyGreens']));
-                    $this->dbh->exec(str_replace("{tablename}", str_replace("VoterExtract/","",$barenames[0]), $this->settings['import']['createStateGreens']));
+                    $parser->handleAggregate();
                 }                      
             }
             // exit();
