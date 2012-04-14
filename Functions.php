@@ -31,12 +31,12 @@ class Functions extends Codes {
             )
         ));
         $this->updateExportDates($county, $export_date);        
-        $this->historyCreate($county."Greens");
-        $this->historyClear($county."Greens",$export_date);
+//        $this->historyCreate($county."Greens");
+//        $this->historyClear($county."Greens",$export_date);
     }
     
     public function updateExportDates($tablename,$export_date) {
-        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"UPDATE `FloridaVoterHistory`.`{tablename}` SET Export_Date=':export_date' WHERE Export_Date=''"));
+        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"UPDATE `FloridaVoterHistory`.`{tablename}` SET Export_Date=:export_date WHERE Export_Date=''"));
         $sth->execute(array(':export_date' => $export_date));        
     }
     
@@ -44,7 +44,7 @@ class Functions extends Codes {
         return $this->dbh->exec(str_replace("{tablename}", $tablename, $this->settings['import']['importHistoryCreateSQL']));
     } 
     public function historyClear($tablename,$export_date) {
-        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"DELETE FROM `FloridaVoterHistory`.`{tablename}` WHERE Export_Date=':export_date'"));
+        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"DELETE FROM `FloridaVoterHistory`.`{tablename}` WHERE Export_Date=:export_date"));
         $sth->execute(array(':export_date' => $export_date));                        
     }
 }
