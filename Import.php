@@ -12,21 +12,36 @@
  */
 include_once 'Parser.php';
 include_once 'Connection.php';
+include_once 'Functions.php';
 
 declare(ticks = 1);
 
 //pcntl_signal(SIGCHLD, "Import.signal_handler");
 
 class Import extends Connection {
-    // private $settings;
     
     public function __construct() {
         parent::__construct();
-        // $this->settings = parse_ini_file("settings.ini", true);
-        $this->dbh->exec(str_replace("{tablename}", "allgreens", $this->settings['import']['importCreateSQL']));
-        $this->dbh->exec("TRUNCATE TABLE `allgreens`");
+        // TEMPORARILY DISABLING NEXT TWO LINES
+        // $this->dbh->exec(str_replace("{tablename}", "allgreens", $this->settings['import']['importCreateSQL']));
+        //$this->dbh->exec("TRUNCATE TABLE `allgreens`");
     }
-     
+    
+    public function extractHistory() {
+        if ($handle = opendir($this->settings['import']['importHistoryFolder'])) {
+            $functions = new Functions();
+            /* This is the correct way to loop over the directory. */
+            while (false !== ($filename = readdir($handle))) {
+                if ($filename != "." && $filename != "..") {
+                    if(!is_dir($this->settings['import']['importHistoryFolder']."/".$filename)) {
+                        echo "$filename\n";
+                        $functions->importHistoryFile($this->settings['import']['importHistoryFolder'],$filename);
+                    }
+                }
+            }            
+            closedir($handle);
+        }
+    }
     public function extractVoters() {
         // $pid = pcntl_fork();            
         // if (!$pid) {

@@ -30,7 +30,10 @@ class Connection {
         $this->dbh = new PDO(
             $this->settings['connection']['dsn'], 
             $this->settings['connection']['user'], 
-            $this->settings['connection']['passwd']
+            $this->settings['connection']['passwd'],
+            array(
+                PDO::ATTR_PERSISTENT => true
+            )
         );                
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
