@@ -76,7 +76,7 @@ class Functions extends Codes {
         return $this->dbh->exec(str_replace("{tablename}", $tablename, $this->settings['import']['importVoterCreateSQL']));
     } 
     public function voterClear($tablename,$export_date) {
-        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"DELETE FROM `FloridaVotersDev`.`{tablename}` WHERE Export_Date=STR_TO_DATE(:export_date,'%Y%m%d')"));
+        $sth = $this->dbh->prepare(str_replace("{tablename}", $tablename,"DELETE FROM `FloridaVoters`.`{tablename}` WHERE Export_Date=STR_TO_DATE(:export_date,'%Y%m%d')"));
         $sth->execute(array(':export_date' => $export_date));                        
     }
     public function historyAppend($tablename,$export_date) {
