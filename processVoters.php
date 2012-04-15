@@ -6,6 +6,6 @@
  */
 include_once 'Import.php';
 $import = new Import();
-$import->extractVoters;
+$import->extractVoters();
 
 ?>
