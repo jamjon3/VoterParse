@@ -54,10 +54,10 @@ class Functions extends Codes {
                 )
             )
         ));
-        $this->voterCreate($county."Greens");
-        $this->voterClear($county."Greens",$export_date);
+        $this->voterCreate($county." Greens");
+        $this->voterClear($county." Greens",$export_date);
         $this->voterGreensAppend($county,$export_date);
-        $this->voterGreensAllAppend($county."Greens",$export_date);
+        $this->voterGreensAllAppend($county." Greens",$export_date);
         $this->voterAppend($county,$export_date);
     }
     public function voterAppend($tablename,$export_date) {

@@ -16,7 +16,7 @@ class Codes extends Connection {
     }
     public function getCounty($county_code) {        
         $sth = $this->dbh->prepare(
-            "SELECT getCounty(:county_code) AS county", 
+            "SELECT `FloridaVoterDescriptors`.getCountyName(:county_code) AS county", 
             array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY)
         );
         $sth->execute(array(':county_code' => $county_code));

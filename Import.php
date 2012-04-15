@@ -61,8 +61,8 @@ class Import extends Connection {
                             $export_date = substr(substr($filename,0,-4),-8);
                             $functions->voterCreate("Voters");
                             $functions->voterClear("Voters", $export_date);
-                            $functions->voterCreate("GreenVoters");
-                            $functions->voterClear("GreenVoters", $export_date);
+                            $functions->voterCreate("Green Voters");
+                            $functions->voterClear("Green Voters", $export_date);
                             $initialized = true;
                         }
                         echo "$filename\n";
