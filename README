@@ -6,4 +6,4 @@ Currently, this functions only by running this via command-line.
 I'm stubbing out an interface and the ajax callback to drive it
 so this will, ultimately, have an interface.
 
-Configuration options and defaults in the setup.ini file. 
+Configuration options and defaults in the settings.ini file. 
