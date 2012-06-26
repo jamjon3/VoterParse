@@ -76,6 +76,8 @@ EXECUTE stmt1 USING @countyCode,@importDate;
 
 DEALLOCATE PREPARE stmt1;
 
+DROP TEMPORARY TABLE IF EXISTS countyTemp;
+
 CREATE TEMPORARY TABLE countyTemp LIKE `FloridaVoterData`.`Voters`;
 
 LOAD DATA LOCAL INFILE '/tmp/vparseImport.txt'
@@ -158,4 +160,4 @@ INSERT INTO `FloridaVoterData`.`Green Voters` SELECT * FROM countyTemp WHERE `Pa
 
 CALL `FloridaVoterCodes`.`buildPartyVoters`(@countyCode,@countyName,@importDate);
 
-DROP TABLE countyTemp;
+DROP TEMPORARY TABLE IF EXISTS countyTemp;

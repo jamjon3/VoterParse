@@ -43,6 +43,8 @@ EXECUTE stmt1 USING @countyCode,@importDate;
 
 DEALLOCATE PREPARE stmt1;
 
+DROP TEMPORARY TABLE IF EXISTS countyTemp;
+
 CREATE TEMPORARY TABLE countyTemp LIKE `FloridaVoterData`.`Histories`;
 
 LOAD DATA LOCAL INFILE '/tmp/vparseImport.txt'
@@ -69,6 +71,7 @@ EXECUTE stmt1 ;
 
 DEALLOCATE PREPARE stmt1;
 
-DROP TABLE countyTemp;
+DROP TEMPORARY TABLE IF EXISTS countyTemp;
+
 
 

@@ -100,6 +100,8 @@ CREATE TABLE IF NOT EXISTS `Voters` (
 
 DELETE FROM `Voters` WHERE `Export Date`=@importDate;
 
+DROP TEMPORARY TABLE IF EXISTS countyTemp;
+
 CREATE TEMPORARY TABLE countyTemp LIKE `Voters`;
 
 LOAD DATA LOCAL INFILE '/tmp/vparseImport.txt'
@@ -188,4 +190,5 @@ INSERT INTO `Voters` SELECT * FROM countyTemp;
 
 CALL `GeorgiaVoterCodes`.`buildCountyVoters`(@importDate);
 
-DROP TABLE countyTemp;
+DROP TEMPORARY TABLE IF EXISTS countyTemp;
+
