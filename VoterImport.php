@@ -22,30 +22,35 @@ class VoterImport extends County {
         $this->historyImportScript = $this->settings[$this->stateSection]['historyImportScript'];
         $this->bootstrapFlag =  $this->settings[$this->stateSection]['bootstrapFlag'];
         $this->bootstrapScript =  $this->settings[$this->stateSection]['bootstrapScript'];
-        if($this->bootstrapFlag) {
-            try {
-                $sth = $this->dbh->prepare(file_get_contents("./".$this->bootstrapScript, FILE_USE_INCLUDE_PATH));
-                $sth->execute();
-                $i = 1;
-                do {
-                    echo "Processing Multiquery item ".$i."\n";
-                    if($i == 4) {
-                        // echo $sth->fetchColumn()."\n";
-                    }
-                    $i++;
-                } while ($sth->nextRowset());                            
-            } catch(PDOException $e) {
-                print $e->getMessage(); 
-                print $e->getTraceAsString();
-            }
-        }
+//        if($this->bootstrapFlag) {
+//            try {
+//                echo "My Contents".file_get_contents("./".$this->bootstrapScript, FILE_USE_INCLUDE_PATH);
+//                $sth = $this->dbh->prepare(file_get_contents("./".$this->bootstrapScript, FILE_USE_INCLUDE_PATH));
+//                $sth->execute();
+//                $i = 1;
+//                do {
+//                    echo "Processing Multiquery item ".$i."\n";
+//                    if($i == 4) {
+//                        // echo $sth->fetchColumn()."\n";
+//                    }
+//                    $i++;
+//                } while ($sth->nextRowset());                            
+//            } catch(PDOException $e) {
+//                print $e->getMessage(); 
+//                print $e->getTraceAsString();
+//            }
+//        }
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
         // $this->tryPrepared();
         // $this->tryHistory();
+//        $this->importFiles(
+//            $this->historyImportScript, 
+//            $this->settings[$this->stateSection]['historyFiles']
+//        );
         $this->importFiles(
-            $this->historyImportScript, 
-            $this->settings[$this->stateSection]['historyFiles']
+            $this->voterImportScript, 
+            $this->settings[$this->stateSection]['voterFiles']
         );
     }
     
@@ -61,9 +66,9 @@ class VoterImport extends County {
                             unlink('/tmp/vparseImport.txt');
                         }
                         symlink(getcwd()."/".$importPath."/".$filename, '/tmp/vparseImport.txt');
-                        $sth = $this->dbh->prepare(file_get_contents("./".$this->historyImportScript, FILE_USE_INCLUDE_PATH));
+                        $sth = $this->dbh->prepare(file_get_contents("./".$importScript, FILE_USE_INCLUDE_PATH));
                         $sth->execute(array(
-                            ':importFile' => (isset($this->settings[$this->stateSection]['importDate']))?$this->settings[$this->stateSection]['importDate']:$filename
+                            ':importFile' => (empty($this->settings[$this->stateSection]['importDate']))?$filename:$this->settings[$this->stateSection]['importDate']
                         ));
                         try {
                             $i = 1;

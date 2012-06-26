@@ -156,4 +156,6 @@ DEALLOCATE PREPARE stmt1;
 
 INSERT INTO `FloridaVoterData`.`Green Voters` SELECT * FROM countyTemp WHERE `Party Affiliation`='GRE';
 
+CALL `FloridaVoterCodes`.`buildPartyVoters`(@countyCode,@countyName,@importDate);
+
 DROP TABLE countyTemp;

@@ -186,39 +186,6 @@ UPDATE countyTemp SET `Export Date` = @importDate;
 
 INSERT INTO `Voters` SELECT * FROM countyTemp;
 
-SELECT COUNT(*) INTO @countyCount FROM `Georgia Voter Codes`.`County Codes`;
-
-SET @count = 1;
-WHILE @countyCount >= @count DO
-    SELECT 
-        `County Code`,
-        REPLACE(REPLACE(`County Description`,'.',''),'-',' ') AS FriendlyCountyName
-    INTO
-        @countyCode,
-        @countyName
-    FROM `Georgia Voter Codes`.`County Codes`
-    WHERE `County Code`+0=@count;
-
-    SET @l_sql =CONCAT('CREATE TABLE IF NOT EXISTS `',@countyName,' Voters` LIKE `Voters`');
-    PREPARE stmt1 FROM @l_sql;
-    EXECUTE stmt1 ;
-
-    DEALLOCATE PREPARE stmt1;
-
-    SET @l_sql =CONCAT('DELETE FROM `',@countyName,' Voters` WHERE `Export Date`=?');
-    PREPARE stmt1 FROM @l_sql;
-    EXECUTE stmt1 USING @importDate;
-
-    DEALLOCATE PREPARE stmt1;
-
-    SET @l_sql =CONCAT('INSERT INTO `',@countyName,' Voters` SELECT * FROM countyTemp WHERE `Party Affiliation`=?');
-    PREPARE stmt1 FROM @l_sql;
-    EXECUTE stmt1 USING @countyCode;
-
-    DEALLOCATE PREPARE stmt1;    
-
-
-    SET @count = @count + 1;
-END WHILE;
+CALL `GeorgiaVoterCodes`.`buildCountyVoters`(@importDate);
 
 DROP TABLE countyTemp;

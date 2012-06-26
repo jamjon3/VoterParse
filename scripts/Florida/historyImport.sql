@@ -69,18 +69,6 @@ EXECUTE stmt1 ;
 
 DEALLOCATE PREPARE stmt1;
 
-SELECT COUNT(*),0 INTO @partyCount,@count FROM `FloridaVoterCodes`.`Party Codes`;
-/**
-partyLoop: LOOP
-    SET @count=@count+1;
-    SET @l_sql = CONCAT('SELECT `Party Code`,`Party Description` INTO @partyCode,@partyDesc FROM `FloridaVoterCodes`.`Party Codes` LIMIT ',@count,',1');
-    PREPARE stmt1 FROM @l_sql;
-    EXECUTE stmt1 ;
-    IF @count = @partyCount THEN
-        LEAVE partyLoop;
-    END IF;
-END LOOP partyLoop;
-**/
 DROP TABLE countyTemp;
 
 
