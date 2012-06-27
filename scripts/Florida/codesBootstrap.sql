@@ -340,6 +340,66 @@ CALL bootstrapVoterStatusCodes();
 
 DROP procedure IF EXISTS `bootstrapVoterStatusCodes`;
 
+-- ----------------------------
+-- Procedure structure for `buildPartyVoters`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `buildPartyVoters`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buildPartyVoters`(countyCode CHAR(3),countyName VARCHAR(128),importDate DATE)
+BEGIN
+	DECLARE partyCode VARCHAR(3) DEFAULT '';
+	DECLARE partyName VARCHAR(128) DEFAULT '';
+	DECLARE no_more_rows BOOLEAN;
+	DECLARE loop_cntr INT DEFAULT 0;
+	DECLARE num_rows INT DEFAULT 0;
+	DECLARE party_cur CURSOR FOR
+		SELECT 
+			`Party Code`,
+			`Party Simple Name`
+		FROM  `FloridaVoterCodes`.`Party Codes`;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET no_more_rows = TRUE;
+
+	OPEN party_cur;
+	select FOUND_ROWS() into num_rows;
+	the_loop: LOOP
+		FETCH  party_cur
+		INTO   partyCode,
+			partyName;
+		IF no_more_rows THEN
+			CLOSE party_cur;
+			LEAVE the_loop;
+		END IF;
+		SET @countyCode = countyCode;
+		SET @partyCode = partyCode;
+		SET @importDate = importDate;
+	
+		SET @l_sql =CONCAT('CREATE TABLE IF NOT EXISTS `FloridaVoterData`.`',countyName,' ',partyName,' Voters` LIKE `FloridaVoterData`.`Voters`');
+		PREPARE stmt1 FROM @l_sql;
+		EXECUTE stmt1 ;
+
+		DEALLOCATE PREPARE stmt1;
+
+		SET @l_sql =CONCAT('DELETE FROM `FloridaVoterData`.`',countyName,' ',partyName,' Voters` WHERE `County Code`=? AND `Export Date`=?');
+		PREPARE stmt1 FROM @l_sql;
+		EXECUTE stmt1 USING @countyCode,@importDate;
+
+		DEALLOCATE PREPARE stmt1;
+
+		SET @l_sql =CONCAT('INSERT INTO `FloridaVoterData`.`',countyName,' ',partyName,' Voters` SELECT * FROM `FloridaVoterData`.`',countyName,' Voters` WHERE `Party Affiliation`=?');
+		PREPARE stmt1 FROM @l_sql;
+		EXECUTE stmt1 USING @partyCode;
+
+		DEALLOCATE PREPARE stmt1;    
+
+	END LOOP the_loop;
+
+
+
+END
+;;
+DELIMITER ;
+
+
 
 
 
