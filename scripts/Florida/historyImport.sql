@@ -63,9 +63,9 @@ SET `Export Date` = '0000-00-00',
 
 UPDATE countyTemp SET `Export Date` = @importDate;
 
-INSERT INTO `FloridaVoterData`.`Histories` SELECT * FROM countyTemp;
+REPLACE INTO `FloridaVoterData`.`Histories` SELECT * FROM countyTemp;
 
-SET @l_sql =CONCAT('INSERT INTO `FloridaVoterData`.`',@countyName,' History` SELECT * FROM countyTemp');
+SET @l_sql =CONCAT('REPLACE INTO `FloridaVoterData`.`',@countyName,' History` SELECT * FROM countyTemp');
 PREPARE stmt1 FROM @l_sql;
 EXECUTE stmt1 ;
 
