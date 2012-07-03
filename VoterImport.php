@@ -44,14 +44,14 @@ class VoterImport extends County {
         ini_set('display_errors', '1');
         // $this->tryPrepared();
         // $this->tryHistory();
-//        $this->importFiles(
-//            $this->historyImportScript, 
-//            $this->settings[$this->stateSection]['historyFiles']
-//        );
         $this->importFiles(
-            $this->voterImportScript, 
-            $this->settings[$this->stateSection]['voterFiles']
+            $this->historyImportScript, 
+            $this->settings[$this->stateSection]['historyFiles']
         );
+//        $this->importFiles(
+//            $this->voterImportScript, 
+//            $this->settings[$this->stateSection]['voterFiles']
+//        );
     }
     
     public function importFiles($importScript,$importPath) {
