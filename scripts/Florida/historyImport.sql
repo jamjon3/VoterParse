@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `FloridaVoterData`.`Histories` (
   `Election Date` DATE DEFAULT NULL,
   `Election Type` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `History Code` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `Export Date` DATE DEFAULT NULL
+  `Export Date` DATE DEFAULT NULL,
+  PRIMARY KEY (`County Code`,`Voter ID`,`Election Date`,`Election Type`,`History Code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DELETE FROM `FloridaVoterData`.`Histories` WHERE `County Code`=@countyCode AND `Export Date`=@importDate;
