@@ -26,10 +26,11 @@ CREATE TABLE IF NOT EXISTS `FloridaVoterData`.`Histories` (
   `Election Date` DATE DEFAULT NULL,
   `Election Type` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `History Code` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `Export Date` DATE DEFAULT NULL
+  `Export Date` DATE DEFAULT NULL,
+  PRIMARY KEY (`County Code`,`Voter ID`,`Election Date`,`Election Type`,`History Code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DELETE FROM `FloridaVoterData`.`Histories` WHERE `County Code`=@countyCode AND `Export Date`=@importDate;
+-- DELETE FROM `FloridaVoterData`.`Histories` WHERE `County Code`=@countyCode AND `Export Date`=@importDate;
 
 SET @l_sql =CONCAT('CREATE TABLE IF NOT EXISTS `FloridaVoterData`.`',@countyName,' History` LIKE `FloridaVoterData`.`Histories`');
 PREPARE stmt1 FROM @l_sql;
@@ -38,11 +39,12 @@ EXECUTE stmt1 ;
 DEALLOCATE PREPARE stmt1;
 
 SET @l_sql =CONCAT('DELETE FROM `FloridaVoterData`.`',@countyName,' History` WHERE `County Code`=? AND `Export Date`=?');
+/**
 PREPARE stmt1 FROM @l_sql;
 EXECUTE stmt1 USING @countyCode,@importDate;
 
 DEALLOCATE PREPARE stmt1;
-
+**/
 DROP TEMPORARY TABLE IF EXISTS countyTemp;
 
 CREATE TEMPORARY TABLE countyTemp LIKE `FloridaVoterData`.`Histories`;
@@ -63,9 +65,9 @@ SET `Export Date` = '0000-00-00',
 
 UPDATE countyTemp SET `Export Date` = @importDate;
 
-INSERT INTO `FloridaVoterData`.`Histories` SELECT * FROM countyTemp;
+REPLACE INTO `FloridaVoterData`.`Histories` SELECT * FROM countyTemp;
 
-SET @l_sql =CONCAT('INSERT INTO `FloridaVoterData`.`',@countyName,' History` SELECT * FROM countyTemp');
+SET @l_sql =CONCAT('REPLACE INTO `FloridaVoterData`.`',@countyName,' History` SELECT * FROM countyTemp');
 PREPARE stmt1 FROM @l_sql;
 EXECUTE stmt1 ;
 
