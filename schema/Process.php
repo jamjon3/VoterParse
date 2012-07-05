@@ -10,7 +10,7 @@
  *
  * @author jam
  */
-include_once '../Connection.php';
+include_once '../conf/Connection.php';
 
 class Process extends Connection {
     public $processId;

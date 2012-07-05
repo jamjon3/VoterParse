@@ -10,7 +10,7 @@
  *
  * @author jamesjones
  */
-include_once 'County.php';
+include_once 'schema/County.php';
 class VoterImport extends County {
     public $voterImportScript;
     public $historyImportScript;
