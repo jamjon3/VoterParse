@@ -1,5 +1,5 @@
 <?php
-include_once 'County.php';
+include_once 'schema/County.php';
 $county = new County();
 ?>
 <!DOCTYPE html>

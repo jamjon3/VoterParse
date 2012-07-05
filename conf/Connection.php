@@ -32,11 +32,9 @@ class Connection {
             $this->settings['connection']['user'], 
             $this->settings['connection']['passwd'],
             array(
-                PDO::ATTR_PERSISTENT => true,
-                PDO::MYSQL_ATTR_LOCAL_INFILE => 1
+                PDO::ATTR_PERSISTENT => true
             )
         );                
-//                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
     }

@@ -10,7 +10,7 @@
  *
  * @author jamesjones
  */
-include_once 'Connection.php';
+include_once '../conf/Connection.php';
 
 class County extends Connection {
     //put your code here
