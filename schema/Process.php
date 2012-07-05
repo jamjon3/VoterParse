@@ -14,7 +14,7 @@ include_once '../Connection.php';
 
 class Process extends Connection {
     public $processId;
-    public $scriptId;
+    public $script;
     public $status;
     
     public function __construct() {
